@@ -1,10 +1,14 @@
-// import { url } from "../utils";
 import {url} from "../utils"
 
-export function fetchPipelines({build_type=""}) {
-    return fetch(url(`build/pipelines-for-build-type?build_type=${build_type}`)).then(async (res) => {
-      const data = await res.json();
-      let { data: pipelineType } = data;
-      return pipelineType || [];
-    });
+export function fetchList({pipeline_id = 1, page = 1, page_size = 100}) {
+    return fetch(url(`build/pipeline-list-show?pipeline_id=${pipeline_id}&page=${page}&page_size=${page_size}`))
+        .then(async (res) => {
+            const data = await res.json();
+            let { data: buildList } = data;
+            return buildList || [];
+        })
+        .catch((e) => {
+            console.log(e);
+        });
 }
+

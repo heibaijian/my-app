@@ -1,5 +1,4 @@
 import * as React from "react";
-import { Link } from "react-router-dom";
 
 import ListItem from "@mui/material/ListItem";
 import ListItemIcon from "@mui/material/ListItemIcon";
@@ -12,71 +11,61 @@ import AdUnitsIcon from "@mui/icons-material/AdUnits";
 import ImportContactsIcon from '@mui/icons-material/ImportContacts';
 import TaskIcon from '@mui/icons-material/Task';
 import ViewHeadlineIcon from '@mui/icons-material/ViewHeadline';
+import {Link} from "react-router-dom";
 
 export const mainListItems = (
-  <div>
-    <ListSubheader inset>Release Management</ListSubheader>
-    <ListItem button component={Link} to="/home/version">
-      <ListItemIcon>
-        <AccountTreeIcon />
-      </ListItemIcon>
-      <ListItemText primary="Version" />
-    </ListItem>
-  </div>
+    <div>
+        <ListItem  button component={Link} to="/list/dev">
+            <ListItemIcon>
+                <AccountTreeIcon />
+            </ListItemIcon>
+            <ListItemText primary="Dev Build" />
+        </ListItem>
+    </div>
 );
 
 export const secondaryListItems = (
-  <div>
-    <ListSubheader inset>Triage Management</ListSubheader>
-    <ListItem button component={Link} to="/home/triage">
-      <ListItemIcon>
-        <ColorizeIcon />
-      </ListItemIcon>
-      <ListItemText primary="Version Triage" />
-    </ListItem>
-    <ListItem button component={Link} to="/home/affection">
-      <ListItemIcon>
-        <AdUnitsIcon />
-      </ListItemIcon>
-      <ListItemText primary="Affects Triage" />
-    </ListItem>
-  </div>
+    <div>
+        <ListItem  button component={Link} to="/list/nightly">
+            <ListItemIcon>
+                <ColorizeIcon />
+            </ListItemIcon>
+            <ListItemText primary="Nightly Build" />
+        </ListItem>
+    </div>
 );
 
 export const thirdListItems = (
-  <div>
-    <ListSubheader inset>Issue Center</ListSubheader>
-    <ListItem button component={Link} to="/home/open">
-      <ListItemIcon>
-        <ImportContactsIcon />
-      </ListItemIcon>
-    <ListItemText primary="Recent Opened" />
-    </ListItem>
-    <ListItem button component={Link} to="/home/close">
-      <ListItemIcon>
-        <TaskIcon />
-      </ListItemIcon>
-    <ListItemText primary="Recent Closed" />
-    </ListItem>
-    <ListItem button component={Link} to="/home/all">
-      <ListItemIcon>
-        <ViewHeadlineIcon />
-      </ListItemIcon>
-      <ListItemText primary="All Issue List" />
-    </ListItem>
-  </div>
+    <div>
+        <ListItem  button component={Link} to="/list/rc">
+            <ListItemIcon>
+                <ImportContactsIcon />
+            </ListItemIcon>
+            <ListItemText primary="RC Build" />
+        </ListItem>
+    </div>
 );
 
 export const fourthListItems = (
-  <div>
-    <ListSubheader inset>CI/CD Tools</ListSubheader>
-    <ListItem button component={Link} to="/home/tifc">
-      <ListItemIcon>
-        <BugReportIcon />
-      </ListItemIcon>
-      <ListItemText primary="TiFailureChaser" />
-    </ListItem>
-  </div>
+    <div>
+        <ListItem  button component={Link} to="/list/ga">
+            <ListItemIcon>
+                <TaskIcon />
+            </ListItemIcon>
+            <ListItemText primary="GA Build" />
+        </ListItem>
+    </div>
+);
+
+export const fifthListItems = (
+    <div>
+        <ListItem  button component={Link} to="/list/hotfix">
+            <ListItemIcon>
+                <BugReportIcon />
+            </ListItemIcon>
+            <ListItemText primary="Hotfix Build" />
+        </ListItem>
+    </div>
 );
 
 // Icons From：https://mui.com/components/material-icons/?query=project

@@ -2,8 +2,6 @@ import * as React from "react";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 import CssBaseline from "@mui/material/CssBaseline";
 import Box from "@mui/material/Box";
-import Toolbar from "@mui/material/Toolbar";
-import { Navbar } from "./Navbar";
 import { Sidebar } from "./Sidebar";
 
 const mdTheme = createTheme();
