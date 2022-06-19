@@ -2,8 +2,9 @@ import * as React from 'react';
 import {useState} from 'react';
 import {DataGrid, GridColDef} from '@mui/x-data-grid';
 import {useQuery} from "react-query";
-import {fetchList} from "../request/list";
+import {fetchList} from "../request/BuildList";
 
+const host = "http://127.0.0.1:3000";
 const columns: GridColDef[] = [
         {
             field: "id",
@@ -13,7 +14,15 @@ const columns: GridColDef[] = [
         {
             field: 'pipeline_build_id',
             headerName: 'ID',
-            width: 70
+            width: 70,
+            valueGetter: (params) => params.row.pipeline_build_id,
+            renderCell: function (params) {
+                return <p>
+                    <a target="_blank"
+                       href={`${host}/build/result/${params.row.pipeline_build_id}`}>{params.row.pipeline_build_id}</a>
+                </p>
+            }
+
         },
 
         {
@@ -127,7 +136,7 @@ export default function DataGrid4List(tipipelineId) {
         {
             onSuccess: (data) => {
                 console.log(data)
-                setRowCount(1);
+                setRowCount(data.length);
             },
             keepPreviousData: true,
             staleTime: 5000,
@@ -150,8 +159,9 @@ export default function DataGrid4List(tipipelineId) {
     const rows = listQuery.data;
     try {
         const r1 = listQuery.data.map((v) => {
-            return {...v,id:v.pipeline_id}}
-    )
+                return {...v, id: v.pipeline_id}
+            }
+        )
         console.log(r1)
         return (
             <div style={{height: 400, width: '100%'}}>
@@ -162,20 +172,18 @@ export default function DataGrid4List(tipipelineId) {
                     paginationMode={"server"}
                     rowCount={rowCount}
                     page={currentPage}
-                    // onPageChange={(page, details) => {
-                    //     setCurrentPage(page);
-                    // }}
-                    // onPageSizeChange={(pageSize, details) => {
-                    //     setRowsPerPage(pageSize);
-                    // }}
+                    onPageChange={(page, details) => {
+                        setCurrentPage(page);
+                    }}
+                    onPageSizeChange={(pageSize, details) => {
+                        setRowsPerPage(pageSize);
+                    }}
                     showCellRightBorder={true}
                     showColumnRightBorder={false}
-                    // checkboxSelection
-                    // disableSelectionOnClick
                 />
             </div>
         );
-    }catch (e){
+    } catch (e) {
         console.log("error")
     }
 

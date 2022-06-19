@@ -7,7 +7,7 @@ import AccordionDetails from "@mui/material/AccordionDetails";
 import Box from "@mui/material/Box";
 import Layout from './layout/Layout';
 import {useParams} from "react-router-dom";
-import {fetchPipelines} from "./request/pipelineType";
+import {fetchPipelines} from "./request/PipelineType";
 import {useQuery} from "react-query";
 import Tabs from "@mui/material/Tabs";
 import Tab from "@mui/material/Tab";
@@ -51,9 +51,6 @@ const PipelineTabs = ({buildTypeProp}) => {
         );
     }
     const currentVersions = pipelineType.data;
-    console.log(currentVersions)
-    console.log(tab)
-    // // try {
     if (buildTypeProp == "dev") {
         return (
             <>
@@ -77,15 +74,11 @@ const PipelineTabs = ({buildTypeProp}) => {
             </>
         );
     }
-
-    // // }catch (e){
-    // //     console.log("error1")
-    // // }
 };
 
 const ListPage = (props) => {
     const params = useParams();
-    const selectType = params.type === undefined ? "none" : params.type;
+    const selectType = params.type === undefined ? "dev" : params.type;
     console.log(selectType)
 
 
