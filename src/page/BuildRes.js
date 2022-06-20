@@ -68,7 +68,7 @@ const BuildResPage = (props) => {
                     </AccordionDetails>
                 </Accordion>
             </Container>
-            <Container maxWidth="xl" sx={{mt: 4, mb: 4}}>
+            <Container maxWidth="xxl" sx={{mt: 4, mb: 4}}>
                 <Grid container spacing={10}>
                     <Grid item xs={7} md={7} lg={7}>
                         <Paper

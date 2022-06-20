@@ -12,12 +12,18 @@ import {useQuery} from "react-query";
 import Tabs from "@mui/material/Tabs";
 import Tab from "@mui/material/Tab";
 import DataGrid4List from "./layout/GridColumns";
+import SendIcon from "@mui/icons-material/Send";
+import Button from "@mui/material/Button";
 
 
 const PipelineTabs = ({buildTypeProp}) => {
     const [tab, setTab] = React.useState(0);
     const handleChange = (event, newValue) => {
         setTab(newValue)
+    };
+    const [build, setBuild] = React.useState(0);
+    const handleBuild = (event, newValue) => {
+        setBuild(newValue);
     };
     console.log("tab:" + tab)
     const buildTypeSelect = buildTypeProp + "-build";
@@ -59,6 +65,18 @@ const PipelineTabs = ({buildTypeProp}) => {
                         <Tab label={v.pipeline_name}></Tab>
                     ))}
                 </Tabs>
+                <Button
+                    variant="contained"
+                    onClick={handleBuild}
+                    sx={{mt: 2, ml: 1}}
+                    endIcon={<SendIcon />}
+                    style={{margin:10}}
+                    size="small"
+
+                >
+                    Build
+                </Button>
+
                 <DataGrid4List tipipelineId={currentVersions[tab].pipeline_id}></DataGrid4List>
             </>
         );
