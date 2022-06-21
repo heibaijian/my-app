@@ -11,10 +11,12 @@ import TextField from '@mui/material/TextField';
 import Autocomplete from '@mui/material/Autocomplete';
 import Button from '@mui/material/Button';
 import SendIcon from '@mui/icons-material/Send';
-import Typography from '@mui/material/Typography';
+import {useQuery} from "react-query";
+import {fetchBuildParam} from "../request/BuildParam";
 
 
-const BuildPage = (props) => {
+const BuildPage = (pipeline_id) => {
+    pipeline_id = 1
     const [build, setBuild] = React.useState(0);
     const [cancel, setCancel] = React.useState(0)
     const handleBuild = () => {
@@ -23,6 +25,95 @@ const BuildPage = (props) => {
     const handleCancel = () => {
         setCancel(1)
     }
+
+    const buildParam = useQuery(
+        ["build", "params-available-for-pipeline", pipeline_id],
+        () =>
+            fetchBuildParam({
+                pipeline_id: pipeline_id
+            }),
+        {
+            onSuccess: (data) => {
+                console.log(data)
+            },
+            keepPreviousData: true,
+            staleTime: 5000,
+        }
+    );
+    if (buildParam.isLoading) {
+        return (
+            <div>
+                <p>Loading...</p>
+            </div>
+        );
+    }
+    if (buildParam.isError) {
+        return (
+            <div>
+                <p>error: {buildParam.error}</p>
+            </div>
+        );
+    }
+    const buildParamRes = buildParam.data[0];
+    let componentList = [];
+    let branchList = [];
+    const version = buildParamRes.version;
+    let arch = [];
+    let artifactType = []
+    let versionFlag = false;
+    if (buildParamRes.build_type == "hotfix-build" || pipeline_id == 1) {
+        componentList = [
+            {label: 'tidb'},
+            {label: 'tikv'},
+        ];
+        branchList = [
+            {label: 'release-5.2'},
+            {label: 'release-5.3'},
+            {label: 'release-5.4'},
+            {label: 'release-6.1'},
+        ];
+        arch = [
+            {label: 'linux-amd64'},
+            {label: 'linux-arm64'},
+        ];
+        artifactType = [
+            {label: 'community image'},
+            {label: 'enterprise image'},
+        ];
+
+    } else if (buildParamRes.build_type == "rc-build" || buildParamRes.build_type == "ga-build") {
+        componentList = [
+            {label: buildParamRes.component}
+        ];
+        branchList = [
+            {label: 'release-5.2'},
+            {label: 'release-5.3'},
+            {label: 'release-5.4'},
+            {label: 'release-6.1'},
+        ];
+        arch = [
+            {label: buildParamRes.arch}
+        ];
+        artifactType = [
+            {label: buildParamRes.artifact_type}
+        ];
+    } else {
+        componentList = [
+            {label: buildParamRes.component}
+        ];
+        branchList = [
+            {label: buildParamRes.branch}
+        ];
+        arch = [
+            {label: buildParamRes.arch}
+        ];
+        artifactType = [
+            {label: buildParamRes.artifact_type}
+        ];
+        versionFlag = true;
+    }
+    console.log(buildParamRes)
+    console.log(buildParamRes.build_type + buildParamRes.tab)
 
     return (
         <Layout>
@@ -56,36 +147,40 @@ const BuildPage = (props) => {
                         noValidate
                         autoComplete="off"
                     >
-                        <div >
+                        <div>
                             <TextField
                                 required
+                                disabled
                                 id="outlined-required"
                                 label="Build Type"
-                                defaultValue="Hello World"
-                            />
-                        </div>
-                        <div>
-                            <TextField
-                                disabled
-                                id="outlined-disabled"
-                                label="Component"
-                                defaultValue="Hello World"
-                            />
-                        </div>
-                        <div>
-                            <TextField
-                                required
-                                id="outlined-required"
-                                label="Artifactory Type"
-                                defaultValue="Hello World"
+                                defaultValue={buildParamRes.build_type + "/" + buildParamRes.tab}
                             />
                         </div>
                         <div>
                             <Autocomplete
-                                disablePortal
+                                id="combo-box-demo"
+                                options={componentList}
+                                sx={{width: 300}}
+                                disablePortal={true}
+                                defaultValue={componentList[0]}
+                                renderInput={(params) => <TextField {...params} label="Component"/>}
+                            />
+                        </div>
+                        <div>
+                            <Autocomplete
+                                id="combo-box-demo"
+                                options={artifactType}
+                                sx={{width: 300}}
+                                defaultValue={artifactType[0]}
+                                renderInput={(params) => <TextField {...params} label="Artifact Type"/>}
+                            />
+                        </div>
+                        <div>
+                            <Autocomplete
                                 id="combo-box-demo"
                                 options={branchList}
                                 sx={{width: 300}}
+                                defaultValue={branchList[0]}
                                 renderInput={(params) => <TextField {...params} label="Branch"/>}
                             />
                         </div>
@@ -94,15 +189,17 @@ const BuildPage = (props) => {
                                 required
                                 id="outlined-required"
                                 label="Version"
-                                defaultValue="Hello World"
+                                disabled={versionFlag}
+                                defaultValue={version}
                             />
                         </div>
                         <div>
-                            <TextField
-                                required
-                                id="outlined-required"
-                                label="Arch"
-                                defaultValue="Hello World"
+                            <Autocomplete
+                                id="combo-box-demo"
+                                options={arch}
+                                defaultValue={arch[0]}
+                                sx={{width: 300}}
+                                renderInput={(params) => <TextField {...params} label="Arch"/>}
                             />
                         </div>
                         <div>
@@ -110,7 +207,7 @@ const BuildPage = (props) => {
                                 variant="contained"
                                 onClick={handleBuild}
                                 sx={{mt: 3, ml: 1}}
-                                endIcon={<SendIcon />}
+                                endIcon={<SendIcon/>}
                             >
                                 Build
                             </Button>

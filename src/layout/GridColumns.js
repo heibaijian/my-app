@@ -156,17 +156,16 @@ export default function DataGrid4List(tipipelineId) {
             </div>
         );
     }
-    const rows = listQuery.data;
     try {
-        const r1 = listQuery.data.map((v) => {
+        const row = listQuery.data.map((v) => {
                 return {...v, id: v.pipeline_id}
             }
         )
-        console.log(r1)
+        console.log(row)
         return (
             <div style={{height: 400, width: '100%'}}>
                 <DataGrid
-                    rows={r1}
+                    rows={row}
                     columns={columns}
                     pageSize={rowsPerPage}
                     paginationMode={"server"}
