@@ -3,13 +3,13 @@ import {useState} from 'react';
 import {DataGrid, GridColDef} from '@mui/x-data-grid';
 import {useQuery} from "react-query";
 import {fetchList} from "../request/BuildList";
+import {FRONTHOST} from "../utils";
 
-const host = "http://127.0.0.1:3000";
 const columns: GridColDef[] = [
         {
             field: "id",
             hide: true,
-            valueGetter: (params) => params.row.pipeline_id,
+            valueGetter: (params) => params.row.pipeline_build_id,
         },
         {
             field: 'pipeline_build_id',
@@ -19,7 +19,7 @@ const columns: GridColDef[] = [
             renderCell: function (params) {
                 return <p>
                     <a target="_blank"
-                       href={`${host}/build/result/${params.row.pipeline_build_id}`}>{params.row.pipeline_build_id}</a>
+                       href={`${FRONTHOST}/build/result/${params.row.pipeline_build_id}`}>{params.row.pipeline_build_id}</a>
                 </p>
             }
 
@@ -86,45 +86,49 @@ const columns: GridColDef[] = [
     ]
 ;
 
-// const rows = [
-//     {
-//         id: 1,
-//         status: 'success',
-//         beginTime: '2022-06-01 13:00:00',
-//         endTime: '2022-06-01 14:00:00',
-//         startBy: 'lvhongmeng',
-//         component: 'TiDB',
-//         arch: 'linux-amd64',
-//         artifactType: 'community image',
-//         branch: 'release-6.1',
-//         version: 'v6.1.0',
-//         artifactMeta: 'binary path',
-//         traceLog: "http://cd.pingcap.net"
-//     },
-//     {
-//         id: 2,
-//         status: 'success',
-//         beginTime: '2022-06-01 13:00:00',
-//         endTime: '2022-06-01 14:00:00',
-//         startBy: 'lvhongmeng',
-//         component: 'TiDB',
-//         arch: 'linux-amd64',
-//         artifactType: 'community image',
-//         branch: 'release-6.1',
-//         version: 'v6.1.0',
-//         artifactMeta: 'binary path',
-//         traceLog: "http://cd.pingcap.net"
-//     },
-//
-// ];
+const rows = [
+    {
+        id: 1,
+        pipeline_build_id: 1,
+        status: 'success',
+        begin_time: '2022-06-01 13:00:00',
+        end_time: '2022-06-01 14:00:00',
+        start_by: 'lvhongmeng',
+        component: 'TiDB',
+        arch: 'linux-amd64',
+        artifact_type: 'community image',
+        branch: 'release-6.1',
+        version: 'v6.1.0',
+        artifact_meta: 'binary path',
+        trace_log: "http://cd.pingcap.net"
+    },
+    {
+        id: 2,
+        pipeline_build_id: 2,
+        status: 'success',
+        begin_time: '2022-06-01 13:00:00',
+        end_time: '2022-06-01 14:00:00',
+        start_by: 'lvhongmeng',
+        component: 'TiDB',
+        arch: 'linux-amd64',
+        artifact_type: 'community image',
+        branch: 'release-6.1',
+        version: 'v6.1.0',
+        artifact_meta: 'binary path',
+        trace_log: "http://cd.pingcap.net"
+    },
+
+];
 
 
 export default function DataGrid4List(tipipelineId) {
     const id = parseInt(tipipelineId.tipipelineId.toString());
     console.log("id:" + id)
-    const [rowCount, setRowCount] = useState(0);
-    const [rowsPerPage, setRowsPerPage] = useState(100);
+    // const [rowCount, setRowCount] = useState(0);
+    // const [rowsPerPage, setRowsPerPage] = useState(100);
     const [currentPage, setCurrentPage] = useState(1);
+    // const currentPage=1;
+    const rowsPerPage = 20;
     const listQuery = useQuery(
         ["build", "pipeline-list-show", id, currentPage, rowsPerPage],
         () =>
@@ -136,7 +140,7 @@ export default function DataGrid4List(tipipelineId) {
         {
             onSuccess: (data) => {
                 console.log(data)
-                setRowCount(data.length);
+                // setRowCount(data.length);
             },
             keepPreviousData: true,
             staleTime: 5000,
@@ -156,34 +160,26 @@ export default function DataGrid4List(tipipelineId) {
             </div>
         );
     }
-    try {
-        const row = listQuery.data.map((v) => {
-                return {...v, id: v.pipeline_id}
-            }
-        )
-        console.log(row)
-        return (
-            <div style={{height: 400, width: '100%'}}>
-                <DataGrid
-                    rows={row}
-                    columns={columns}
-                    pageSize={rowsPerPage}
-                    paginationMode={"server"}
-                    rowCount={rowCount}
-                    page={currentPage}
-                    onPageChange={(page, details) => {
-                        setCurrentPage(page);
-                    }}
-                    onPageSizeChange={(pageSize, details) => {
-                        setRowsPerPage(pageSize);
-                    }}
-                    showCellRightBorder={true}
-                    showColumnRightBorder={false}
-                />
-            </div>
-        );
-    } catch (e) {
-        console.log("error")
-    }
+    const r8 = listQuery.data.map((v) => {
+            return {...v, id: v.pipeline_build_id}
+        }
+    )
+    console.log(r8)
+    return (
+        <div style={{height: 400, width: '100%'}}>
+            <DataGrid
+                rows={r8}
+                columns={columns}
+                pageSize={rowsPerPage}
+                onPageChange={(page, details) => {
+                    setCurrentPage(page);
+                }}
+                disableSelectionOnClick
+                showCellRightBorder = {true}
+                showColumnRightBorder = {false}
+
+            />
+        </div>
+    );
 
 }

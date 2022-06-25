@@ -51,7 +51,7 @@ export const Sidebar = (props) => {
                         px: [2],
                     }}
                 >
-                    <p align={"left"}><font color="#000000" size={6} face="Comic Sans MS">TiBuild</font></p>
+                    {/*<p align={"left"}><font color="#000000" size={6} face="Comic Sans MS">TiBuild</font></p>*/}
                     <IconButton onClick={toggleDrawer}>
                         <ChevronLeftIcon/>
                     </IconButton>
