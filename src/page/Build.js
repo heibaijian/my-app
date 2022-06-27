@@ -17,7 +17,7 @@ import {useNavigate, useParams} from "react-router-dom";
 import axios from "axios";
 import {url} from "../utils"
 import ResponsiveAppBar from "../layout/Header";
-import {ReactSession} from 'react-client-session';
+import storage from "../request/storageUtils";
 
 
 async function triggerBuild(paramData) {
@@ -35,7 +35,7 @@ async function triggerBuild(paramData) {
             version: paramData['Version'],
             arch: paramData['Arch'],
             artifact_type: paramData['Artifact Type'],
-            start_by: "heibaijian",
+            start_by: storage.getUser() === undefined ? 'LOGIN' : storage.getUser(),
         },
     }).then(function (response) {
         console.log(response.data);

@@ -48,9 +48,14 @@ const PipelineTabs = ({buildTypeProp}) => {
     const [build, setBuild] = React.useState(0);
     const handleBuild = (event, newValue) => {
         setBuild(newValue);
-        console.log("#####tav:" + currentVersions[tab].pipeline_id);
-        let url = FRONTHOST + '/build/config/' + currentVersions[tab].pipeline_id;
-        window.open(url); //此处的url是全路径
+        if (storage.getUser() == undefined) {
+            alert('please log in!');
+        } else {
+            let url = FRONTHOST + '/build/config/' + currentVersions[tab].pipeline_id;
+            window.open(url); //此处的url是全路径
+        }
+
+
     };
     console.log("tab:" + tab)
     const buildTypeSelect = buildTypeProp + "-build";
