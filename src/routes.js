@@ -4,14 +4,12 @@ import App from "./App"
 import BuildRes from "./page/BuildRes";
 import BuildPage from "./page/Build";
 import Login from "./Login";
-import Hellow from "./Hellow"
 
 const MyRoutes = () => {
     return (
         <BrowserRouter>
             <Routes>
                 <Route path="/" element={<App/>}/>
-                <Route path="/test" element={<Hellow/>}/>
                 <Route path="/login" element={<Login/>}/>
                 <Route path="/list" element={<App/>}/>
                 <Route path="/list/:type" element={<App/>}/>
