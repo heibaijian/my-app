@@ -1,6 +1,6 @@
 import * as React from 'react';
 import {useState} from 'react';
-import {DataGrid, GridColDef} from '@mui/x-data-grid';
+import {DataGrid, GridColDef,GridToolbar} from '@mui/x-data-grid';
 import {useQuery} from "react-query";
 import {fetchList} from "../request/BuildList";
 import {FRONTHOST} from "../utils";
@@ -44,26 +44,31 @@ const columns: GridColDef[] = [
         },
 
         {
-            field: 'start_by',
-            headerName: 'Start By',
+            field: 'triggered_by',
+            headerName: 'Tiggered By',
+            width: 120
         },
 
         {
             field: 'component',
             headerName: 'Component',
+            width: 170
         },
         {
             field: 'arch',
             headerName: 'Arch',
+            width: 170
         },
 
         {
             field: 'artifact_type',
             headerName: 'Artifact Type',
+            width: 170
         },
         {
             field: 'branch',
             headerName: 'Branch',
+            width: 120
         },
         {
             field: 'version',
@@ -72,14 +77,15 @@ const columns: GridColDef[] = [
         {
             field: 'artifact_meta',
             headerName: 'Artifact Meta',
+            width: 170
         },
         {
-            field: 'trace_log',
-            headerName: 'Trace Log',
+            field: 'jenkins_log',
+            headerName: 'Jenkins Log',
             width: 100,
             renderCell: function (params) {
                 return <p>
-                    <a target="_blank" href={params.row.trace_log}>Trace Log</a>
+                    <a target="_blank" href={params.row.jenkins_log}>Jenkins Log</a>
                 </p>
             }
         },
@@ -93,14 +99,14 @@ const rows = [
         status: 'success',
         begin_time: '2022-06-01 13:00:00',
         end_time: '2022-06-01 14:00:00',
-        start_by: 'lvhongmeng',
+        triggered_by: 'lvhongmeng',
         component: 'TiDB',
         arch: 'linux-amd64',
         artifact_type: 'community image',
         branch: 'release-6.1',
         version: 'v6.1.0',
         artifact_meta: 'binary path',
-        trace_log: "http://cd.pingcap.net"
+        jenkins_log: "http://cd.pingcap.net"
     },
     {
         id: 2,
@@ -108,14 +114,14 @@ const rows = [
         status: 'success',
         begin_time: '2022-06-01 13:00:00',
         end_time: '2022-06-01 14:00:00',
-        start_by: 'lvhongmeng',
+        triggered_by: 'lvhongmeng',
         component: 'TiDB',
         arch: 'linux-amd64',
         artifact_type: 'community image',
         branch: 'release-6.1',
         version: 'v6.1.0',
         artifact_meta: 'binary path',
-        trace_log: "http://cd.pingcap.net"
+        jenkins_log: "http://cd.pingcap.net"
     },
 
 ];
@@ -173,6 +179,9 @@ export default function DataGrid4List(tipipelineId) {
                 pageSize={rowsPerPage}
                 onPageChange={(page, details) => {
                     setCurrentPage(page);
+                }}
+                components={{
+                    Toolbar: GridToolbar,
                 }}
                 disableSelectionOnClick
                 showCellRightBorder = {true}

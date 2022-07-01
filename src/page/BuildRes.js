@@ -35,10 +35,11 @@ class BuildResPage extends React.Component {
         super(props);
         this.state = {
             data: {},
-            pipeline_build_id: -1
+            pipeline_build_id: -1,
+            duration:"40min"
         }
         let pipeline_build_id = GetPipelineId();
-        axios.get(`http://127.0.0.1:8080/build/request-result?pipeline_build_id=${pipeline_build_id}`).then((response) => {
+        axios.get(`http://127.0.0.1:80/build/request-result?pipeline_build_id=${pipeline_build_id}`).then((response) => {
             let data = response.data.data;
             this.setState({
                 data: data,
@@ -53,7 +54,7 @@ class BuildResPage extends React.Component {
     componentDidMount() {
         let timer = setInterval(function () {
             let data = this.state.data;
-            axios.get(`http://127.0.0.1:8080/build/request-result?pipeline_build_id=${this.state.pipeline_build_id}`).then((response) => {
+            axios.get(`http://127.0.0.1:80/build/request-result?pipeline_build_id=${this.state.pipeline_build_id}`).then((response) => {
                 data = response.data.data;
                 this.setState({
                     data: data
@@ -76,7 +77,7 @@ class BuildResPage extends React.Component {
                     <Container maxWidth="xxl" sx={{mt: 4, mb: 4}}>
                         <Accordion defaultExpanded={true}>
                             <AccordionSummary expandIcon={<ExpandMoreIcon/>}>
-                                <td><font face="Comic Sans MS"> Execution Result</font></td>
+                                <td><font face="Comic Sans MS"> Execution Result [{this.state.data.status}]</font><p></p>Tips : predict duration  [{this.state.duration}]</td>
                             </AccordionSummary>
                             <AccordionDetails>
                                 <Box sx={{width: "100%"}}>

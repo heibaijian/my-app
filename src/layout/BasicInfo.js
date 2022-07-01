@@ -53,11 +53,11 @@ export default function getBasicInfo(requestBuild) {
                 <ListItemText primary="Version" secondary={requestBuildRes.version}/>
             </ListItem>
             <ListItem divider>
-                <ListItemText primary="Start By" secondary={requestBuildRes.start_by}/>
+                <ListItemText primary="Start By" secondary={requestBuildRes.triggered_by}/>
             </ListItem>
             <ListItem divider>
                 <ListItemText primary="Trace Log" secondary={
-                    <a href={requestBuildRes.trace_log}>Trace Log</a>}/>
+                    <a href={requestBuildRes.jenkins_log}>Jenkins Log</a>}/>
             </ListItem>
         </List>
     );

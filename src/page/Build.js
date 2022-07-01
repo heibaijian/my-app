@@ -35,7 +35,7 @@ async function triggerBuild(paramData) {
             version: paramData['Version'],
             arch: paramData['Arch'],
             artifact_type: paramData['Artifact Type'],
-            start_by: storage.getUser() === undefined ? 'LOGIN' : storage.getUser(),
+            triggered_by: storage.getUser() === undefined ? 'Pingcap' : storage.getUser(),
         },
     }).then(function (response) {
         console.log(response.data);

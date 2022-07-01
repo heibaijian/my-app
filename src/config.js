@@ -1,6 +1,6 @@
 const dev_config = {
   // The URL of the server to use.
-  SERVER_HOST: "http://localhost:8080/",
+  SERVER_HOST: "http://localhost:80/",
   // SERVER_HOST: "http://tirelease.pingcap.net/",
 };
 

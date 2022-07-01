@@ -152,7 +152,7 @@ const ListPage = ({props}) => {
                     {/*</Paper>*/}
                     <Accordion defaultExpanded={true}>
                         <AccordionSummary expandIcon={<ExpandMoreIcon/>}>
-                            <td><font face="Comic Sans MS"> Build Type</font></td>
+                            <td><font face="Comic Sans MS"> Build Target</font></td>
                         </AccordionSummary>
                         <AccordionDetails>
                             <Box sx={{width: "100%"}}>
